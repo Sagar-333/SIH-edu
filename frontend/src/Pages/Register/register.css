@@ -1,0 +1,137 @@
+.container__register{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register__row{
+    box-shadow: 3px 3px 3px 3px #888888;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
+
+
+.register__col__1{
+    background-color: #ebebff;
+    background-size: cover;
+    height: 100vh;
+}
+
+.register__col h2{
+    text-align: center;
+}
+
+.register__col img{
+    width:  420px;
+    height: auto;
+}
+
+.register__col form .name input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #888;
+}
+
+.register__col input#submit{
+    color: #fff;
+    background-color: #fb9c46;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.register__col__2{
+    padding: 30px;
+}
+
+.register__col .checkbox label, span{
+    font-size: small;
+    color: #888;
+}
+
+.register__col .checkbox span a{
+    text-decoration: none;
+    margin-left: 1px;
+    color:#888;
+    font-weight: 600;
+}
+
+.register__col .checkbox #submit{
+    margin-left: 15px !important ;
+}
+
+.register__col .name{
+    font-size: small;
+}
+
+.signup-section {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px;
+  }
+  
+  .signup-line {
+    flex-grow: 1;
+    height: 1px;
+    background-color: #ccc;
+    border: none;
+    margin: 0 10px;
+  }
+  
+  .signup-text {
+    color: #888;
+    font-size: 16px;
+  }
+
+.login__links {
+    text-align: center;
+    margin: 20px;
+  }
+  
+  .google-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: rgb(250, 40, 40); 
+    color: #ffffff;
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    text-align: center;
+    margin-right: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .google-button:hover {
+    background-color: rgb(238, 79, 79);;
+  }
+  
+  .google-button svg{
+    margin-right: 10px;
+  }
+
+  .facebook-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #1877f2; 
+    color: #ffffff;
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+  }
+
+  .facebook-button svg{
+    margin-right: 10px;
+  }
+  
+  .facebook-button:hover {
+    background-color: #135693; 
+  }
+
+  .register__col p{
+    color: #888;
+    text-align: center;
+  }
