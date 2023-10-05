@@ -1,10 +1,48 @@
-import React from 'react';
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from 'react';
+import { Link, useNavigate } from "react-router-dom";
 import Saly10 from "../../assets/login_register/Saly-10.svg";
-import register from "../Register/register"
+import { AuthContext } from '../../context/AuthContext';
+import { BASE_URL } from '../../utils/config';
 import './login.css'
 
 const login = () => {
+  const [credentials, setCredentials] = useState({
+    email: undefined,
+    password: undefined
+ })
+
+ const {dispatch} = useContext(AuthContext)
+ const navigate = useNavigate()
+
+ const handleChange = e => {
+    setCredentials(prev => ({ ...prev, [e.target.id]: e.target.value }))
+ }
+
+ const handleClick = async e => {
+    e.preventDefault()
+
+    dispatch({type:'LOGIN_START'})
+
+    try {
+       const res = await fetch(`${BASE_URL}/auth/login`, {
+          method:'post',
+          headers: {
+             'content-type':'application/json'
+          },
+          credentials:'include',
+          body: JSON.stringify(credentials)
+       })
+
+       const result = await res.json()
+       if(!res.ok) alert(result.message)
+       console.log(result.data)
+
+       dispatch({type:"LOGIN_SUCCESS", payload:result.data})
+       navigate('/')
+    } catch(err) {
+       dispatch({type:"LOGIN_FAILURE", payload:err.message})
+    }
+ }
   return (
     <div className="container__login">
       <div className="login__row">
@@ -16,16 +54,16 @@ const login = () => {
         <div className="login__col">
           <div className="login__col__2">
             <h2>Sign in to your account</h2>
-            <form>
+            <form onSubmit={ handleClick }>
               <div className="name">
                 <label htmlFor="email">Your Email</label><br />
-                <input type="email" name="email" id="email" placeholder="abc@example.com" required />
+                <input type="email" name="email" id="email" placeholder="abc@example.com" onChange={handleChange} required />
                 <div className="iconName"><i className="fa-solid fa-envelope"></i></div>
               </div>
               <br />
               <div className="name">
                 <label htmlFor="password">Password</label><br />
-                <input type="password" name="password" id="password" placeholder="password" required />
+                <input type="password" name="password" id="password" placeholder="password" onChange={handleChange} required />
                 <div className="iconName"><i className="fa-solid fa-lock"></i></div>
               </div>
               <br />
