@@ -5,7 +5,8 @@ const TeacherSchema = {
   // by default maintains an unique ID
   credentials: {
     name: { type: String, unique: true, required: true, trim: true },
-    id: { type: String, unique: true, required: true, trim: true },
+    email: { type: String, unique: true, required: true, trim: true },
+    password: { type: String, unique: true, required: true, trim: true },
   },
   quality: {
     rating: { type: String, required: false },
