@@ -6,14 +6,6 @@ const router = express.Router();
 // non-lambda functions for their own respective job.
 
 router.post("/register", authenticationController.register);
-
-router.post("/login", (req, res, next) => {
-  if (!req.body.password || !req.body.username) {
-    res.status(405).json({
-      message: "ERROR!"
-    });
-  }
-  authenticationController.login(req, res, next);
-});
+router.post("/login", authenticationController.login);
 
 module.exports = router;

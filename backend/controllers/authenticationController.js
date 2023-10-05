@@ -46,6 +46,12 @@ async function register(req, res, next) {
 }
 
 async function login(req, res, next) {
+  if (!req.body.password || !req.body.email) {
+    res.status(400).json({
+      message: "Incomplete data"
+    });
+  }
+
   try {
     const email = req.body.email;
     const user = await UserActivation.findOne({ email });
