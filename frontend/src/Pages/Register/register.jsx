@@ -1,9 +1,58 @@
-import React from 'react';
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from 'react';
+import { Link, useNavigate } from "react-router-dom";
 import Saly1 from "../../assets/login_register/Saly-1.svg";
 import './register.css'
+import { AuthContext } from '../../context/AuthContext';
+import { BASE_URL } from '../../utils/config'
 
 const Register = () => {
+  const [credentials, setCredentials] = useState({
+    username: undefined,
+    email: undefined,
+    password: undefined
+  })
+
+  const { dispatch } = useContext(AuthContext)
+  const navigate = useNavigate()
+
+  const handleChange = e => {
+    setCredentials(prev => ({ ...prev, [e.target.id]: e.target.value }))
+  }
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await fetch(`${BASE_URL}/auth/register`, {
+        method: 'post',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(credentials),
+      });
+
+      // Check if the response has a JSON content type
+      const contentType = res.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const result = await res.json();
+
+        if (!res.ok) {
+          alert(result.message);
+        } else {
+          dispatch({ type: 'REGISTER_SUCCESS' });
+          navigate('/login');
+        }
+      } else {
+        // Handle non-JSON response (e.g., HTML or plain text)
+        const textResult = await res.text();
+        alert(`Unexpected response: ${textResult}`);
+      }
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+
   return (
     <div className="container__register">
       <div className="register__row">
@@ -15,34 +64,34 @@ const Register = () => {
         <div className="register__col">
           <div className="register__col__2">
             <h2>Create your account</h2>
-            <form>
+            <form onSubmit={handleClick}>
               <div className="name">
                 <label htmlFor="fullName">Full Name</label><br />
-                <input type="text" name="fullName" id="fullName" placeholder="John Doe" required />
+                <input type="text" name="fullName" id="fullName" placeholder="John Doe" onChange={handleChange} required />
                 <div className="iconName"><i className="fa-solid fa-user"></i></div>
               </div>
               <br />
               <div className="name">
                 <label htmlFor="username">Username</label><br />
-                <input type="text" name="username" id="username" placeholder="john" required />
+                <input type="text" name="username" id="username" placeholder="john" onChange={handleChange} required />
                 <div className="iconName"><i className="fa-solid fa-envelope"></i></div>
               </div>
               <br />
               <div className="name">
                 <label htmlFor="email">Your Email</label><br />
-                <input type="email" name="email" id="email" placeholder="abc@example.com" required />
+                <input type="email" name="email" id="email" placeholder="abc@example.com" onChange={handleChange} required />
                 <div className="iconName"><i className="fa-solid fa-envelope"></i></div>
               </div>
               <br />
               <div className="name">
                 <label htmlFor="password">Password</label><br />
-                <input type="password" name="password" id="password" placeholder="password" required />
+                <input type="password" name="password" id="password" placeholder="password" onChange={handleChange} required />
                 <div className="iconName"><i className="fa-solid fa-lock"></i></div>
               </div>
               <br />
               <div className="name">
                 <label htmlFor="confirmPassword">Confirm Password:</label><br />
-                <input type="password" name="confirmPassword" id="confirmPassword" placeholder="confirm password" required />
+                <input type="password" name="confirmPassword" id="confirmPassword" placeholder="confirm password" onChange={handleChange} required />
                 <div className="iconName"><i className="fa-solid fa-lock"></i></div>
               </div>
               <br />
