@@ -3,29 +3,36 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const app = express();
 const cookieParser = require("cookie-parser");
+const {
+  errorHandler,
+  notFound,
+} = require("./middleware/errorHandlerWrapper.js");
 const authRoute = require("./routes/auth")
-
 require('dotenv').config(); // load all the environment variables
 
-const PORT = process.env.PORT || 3001;
-const URI_KEY = "";
-// const 
 const corsOptions = {
   origin: true,
   credentials: true
 }
-// ADD ROUTES
+
+// CONFIG
+const PORT = process.env.PORT || 3001;
+const MONGO_URI_KEY = process.env.MONGO_URI;
+
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use(cookieParser());
+app.use(errorHandler);
+app.use(notFound);
+
+// ROUTES
 app.use("/api/v1/auth", authRoute)
 
 
-// ADD ERROR HANDLING
 mongoose.set("strictQuery", false)
 const connect = async() => {
   try{
-    await mongoose.connect(process.env.MONGO_URI,{
+    await mongoose.connect(MONGO_URI_KEY,{
       useNewUrlParser: true,
       useUnifiedTopology: true
     })
@@ -34,8 +41,6 @@ const connect = async() => {
     console.log('MongoDB connection failed!')
   }
 }
-// ADD MONGOOSE UTILITY
-// ADD JWT HANDLING
 
 // ROUTES
 
@@ -50,3 +55,5 @@ app.listen(PORT, () => {
   console.log(`yahoo: ${PORT}`);
 })
 
+// TODO
+// ADD JWT HANDLING
