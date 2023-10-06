@@ -56,14 +56,5 @@ pace and capabilities of the student
 --- 
 
 
-# Future Ideas
-Custom machine learning algorithm to identify unique user hands.
-
-A GUI system.
-
-Support for throttle movement by computing the position of the unused hand.
-
-Universal calibration system such that the camera can be placed in any orientation and the user can adjust what is recognized as pitch, yaw and roll(currently the camera has to be facing to the left of the hands).
-
 
 
