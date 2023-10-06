@@ -1,15 +1,26 @@
-# Hand-Recognition
+# Learning remediation Tool
 
-This is a simple application that utilizes python to compute the orientation of a hand, through the help of a web camera, and then feed that rotational information into two vJoy joystick axes, namely the X and Y.
+This is a simple _web-based application_ that is designed to connect students with the ideal teacher for any given specific topic. Our application uses various __advanced algorithms__ to match students with themost qualified educators,fostering __personalized learning__ experiences and smooth transition in the field of _ed-tech._
 
-This can have several utilities, but the main purpose of this program is to replace HOTAS sets or other peripherals with only hands.
 
-I am currently able to do a very short duration aerial refueling with the current algorithm.
+# Working Explained
 
-Demonstration: https://www.youtube.com/watch?v=u8fZfTvuQq0
+⮚ Simply Login into our app and enter the topic of 
+interest.
+⮚ We will process the request using NLP to generate 
+certain keywords to match them in our existing 
+database. 
+⮚ Using AI/ML algorithms we detect the student’s 
+preferences using the previous content they have 
+watched.
+⮚ Through an automated system our recommendation 
+engine suggests the best possible teacher for a 
+particular topic based on the ratings and reviews in 
+our database.
+⮚ After recommending the study resources, the 
+platform recommends quizzes based on the learning 
+pace and capabilities of the student
 
-# Modules Used
-cv2 for operating the camera. PyVjoy for linking up with vJoy. mediapipe for tracking the hand, and for cartesian information regarding the hand features.
  
 # Future Ideas
 Custom machine learning algorithm to identify unique user hands.
