@@ -5,20 +5,23 @@ This is a simple _web-based application_ that is designed to connect students wi
 
 # Working Explained
 
-*⮚ Simply Login into our app and enter the topic of 
+⮚ Simply Login into our app and enter the topic of 
 interest.
 
-*⮚ We will process the request using NLP to generate 
+⮚ We will process the request using NLP to generate 
 certain keywords to match them in our existing 
 database. 
-*⮚ Using AI/ML algorithms we detect the student’s 
+
+⮚ Using AI/ML algorithms we detect the student’s 
 preferences using the previous content they have 
 watched.
-*⮚ Through an automated system our recommendation 
+
+⮚ Through an automated system our recommendation 
 engine suggests the best possible teacher for a 
 particular topic based on the ratings and reviews in 
 our database.
-*⮚ After recommending the study resources, the 
+
+⮚ After recommending the study resources, the 
 platform recommends quizzes based on the learning 
 pace and capabilities of the student
 
