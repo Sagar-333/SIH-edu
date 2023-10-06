@@ -25,7 +25,8 @@ our database.
 platform recommends quizzes based on the learning 
 pace and capabilities of the student
 
-<br>
+
+
 
 
 
@@ -50,6 +51,10 @@ pace and capabilities of the student
 
 
 
+<br />
+<br />
+
+--- 
 
  
 # Future Ideas
