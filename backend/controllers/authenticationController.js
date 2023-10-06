@@ -1,81 +1,104 @@
 const bcrypt = require("bcrypt");
-// const StudentSchema = require("../models/Student.js");
+const Student = require("../models/Student.js");
+const generateToken = require("../utils/generateToken.js");
 // const TeacherSchema = require("../models/Teacher.js");
 
-const Student = require("../models/Student.js");
 
 async function register(req, res, next) {
-  const { username, email, password } = req.body;
+  const { name, email, password } = req.body;
+
+  if (!name || !email || !password) {
+    res.status(400).json({
+      message: "Incomplete data!"
+    });
+    return;
+  }
+
+  const user = await Student.findOne({
+    $or: [
+      { "credentials.name": name },
+      { "credentials.email": email },
+    ],
+  });
+
+  if (user) {
+    return res.status(409).json({
+      message: "Username is already taken. Please choose a different one.",
+    });
+  }
 
   try {
     // Generate a salt
     const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
-
-    // Hash the password using the generated salt
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Create a new student instance
     const student = new Student({
       credentials: {
-        name: username,
+        name: name,
         email: email,
         password: hashedPassword,
       },
     });
-
-    // Save the user with the hashed password
-    await student.save();
-
-    res.status(200).json({
+    await student.save(); // user is now successfully added to the database
+    return res.status(200).json({
       message: "User registered successfully!",
     });
   } catch (error) {
-    res.redirect("/register"); // redirect back to the register page in the event of a failure
-    if (error.code === 11000 && error.keyPattern && error.keyPattern['credentials.name'] === 1) {
-      // Duplicate username error
-      return res.status(409).json({
-        message: "Username is already taken. Please choose a different one.",
-      });
-    }
-
     console.error("Error during registration:", error);
     res.status(500).json({
       message: "Internal server error",
     });
+    return;
   }
 }
 
 async function login(req, res, next) {
-  if (!req.body.password || !req.body.email) {
-    res.status(400).json({
-      message: "Incomplete data"
-    });
-  }
-
   try {
-    const email = req.body.email;
-    const user = await UserActivation.findOne({ email });
+    const { email, name, password } = req.body;
+    const userId = email || name;
 
-    // if user doesn't exist
+    if (!userId || !password) {
+      return res.status(400).json({
+        message: "Incomplete data!"
+      });
+    }
+
+    const user = await Student.findOne({
+      $or: [
+        { "credentials.name": userId },
+        { "credentials.email": userId },
+      ],
+    });
+
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found!' });
     }
-
-    // if user exists then check the password or compare the password
-    const checkCorrectPassword = await bcrypt.compare(req.body.password, user.password);
-
-    // if password incorrect
+    const checkCorrectPassword = await bcrypt.compare(password, user.credentials.password);
     if (!checkCorrectPassword) {
-      return res.status(401).json({ success: false, message: "Incorrect email or password!" });
+      return res.status(401).json({
+        success: false,
+        message: "Incorrect email or password!"
+      });
     }
-
     // if login successful
-    const { password, role, ...rest } = user._doc;
-    res.status(200).json({ success: true, message: "Login successful!", user: rest });
+    const { ...rest } = user._doc;
+
+    const token = generateToken(user._id.toString()); 
+    // Generated JWT is the result of the unique MongoDB storage ID
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      secure: false,
+    });
+    return res.status(200).json({
+      success: true,
+      message: "Login successful!", user: rest
+    });
+    
   } catch (error) {
     console.error("Error during login:", error);
-    res.status(500).json({
+    return res.status(500).json({
       message: "Internal server error",
     });
   }
