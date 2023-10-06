@@ -7,7 +7,8 @@ const {
   errorHandler,
   notFound,
 } = require("./middleware/errorHandlerWrapper.js");
-const authRoute = require("./routes/auth")
+const authRoute = require("./routes/auth.js");
+const testRoute = require("./routes/test.js");
 require('dotenv').config(); // load all the environment variables
 
 const corsOptions = {
@@ -15,18 +16,20 @@ const corsOptions = {
   credentials: true
 }
 
+const APIpath = "/api/v1";
+
 // CONFIG
 const PORT = process.env.PORT || 3001;
 const MONGO_URI_KEY = process.env.MONGO_URI;
 
 app.use(express.json());
+app.use(`${APIpath}/auth`, authRoute)
+app.use("/test", testRoute)
+
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(errorHandler);
 app.use(notFound);
-
-// ROUTES
-app.use("/api/v1/auth", authRoute)
 
 
 mongoose.set("strictQuery", false)
@@ -35,20 +38,12 @@ const connect = async() => {
     await mongoose.connect(MONGO_URI_KEY,{
       useNewUrlParser: true,
       useUnifiedTopology: true
-    })
-    console.log('MongoDB connected!')
+    });
+    console.log('MongoDB connected!');
   } catch (error){
-    console.log('MongoDB connection failed!')
+    console.log('MongoDB connection failed!');
   }
 }
-
-// ROUTES
-
-const test = require("./routes/test.js");
-const auth = require("./routes/auth.js");
-
-app.use("/test", test);
-app.use("/auth", auth);
 
 app.listen(PORT, () => {
   connect();
