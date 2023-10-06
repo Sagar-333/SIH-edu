@@ -31,6 +31,7 @@ async function register(req, res, next) {
       message: "User registered successfully!",
     });
   } catch (error) {
+    res.redirect("/register"); // redirect back to the register page in the event of a failure
     if (error.code === 11000 && error.keyPattern && error.keyPattern['credentials.name'] === 1) {
       // Duplicate username error
       return res.status(409).json({

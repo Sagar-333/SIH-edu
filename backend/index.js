@@ -56,4 +56,6 @@ app.listen(PORT, () => {
 })
 
 // TODO
-// ADD JWT HANDLING
+// ADD JWT middleware
+// ADD MONGODB querying
+// ADD OBJECT POPULATION 
