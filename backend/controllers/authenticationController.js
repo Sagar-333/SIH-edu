@@ -5,18 +5,20 @@ const generateToken = require("../utils/generateToken.js");
 
 
 async function register(req, res, next) {
-  const { name, email, password } = req.body;
+  // console.log('Received registration request:', req.body);
+  const { username, email, password, fullName, confirmPassword } = req.body;
 
-  if (!name || !email || !password) {
+  if (!username || !email || !password || !fullName || !confirmPassword) {
     res.status(400).json({
       message: "Incomplete data!"
     });
     return;
   }
 
+
   const user = await Student.findOne({
     $or: [
-      { "credentials.name": name },
+      { "credentials.username": username },
       { "credentials.email": email },
     ],
   });
@@ -36,7 +38,7 @@ async function register(req, res, next) {
     // Create a new student instance
     const student = new Student({
       credentials: {
-        name: name,
+        name: username,
         email: email,
         password: hashedPassword,
       },
