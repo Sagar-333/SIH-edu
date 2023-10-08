@@ -18,7 +18,7 @@ async function register(req, res, next) {
 
   const user = await Student.findOne({
     $or: [
-      { "credentials.username": username },
+      { "credentials.name": username },
       { "credentials.email": email },
     ],
   });
@@ -58,7 +58,7 @@ async function register(req, res, next) {
 
 async function login(req, res, next) {
   try {
-    const { email, name, password } = req.body;
+    const { email, username, password } = req.body;
     const userId = email || name;
 
     if (!userId || !password) {
