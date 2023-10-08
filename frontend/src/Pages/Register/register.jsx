@@ -21,6 +21,7 @@ const Register = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
+    console.log(JSON.stringify(credentials));
 
     try {
       const res = await fetch(`${BASE_URL}/auth/register`, {
