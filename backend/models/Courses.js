@@ -6,8 +6,7 @@ const CourseSchema = new mongoose.Schema(
     // by default maintains an unique ID
     details: {
       name: { type: String, unique: true, required: true, trim: true },
-      language: { type: String, unique: true, required: true, trim: true },
-      price: { type: String, unique: true, required: true, trim: true },
+      language: { type: String, trim: true },
     },
     metadata: {
       difficulty: { type: String, default: "" },
