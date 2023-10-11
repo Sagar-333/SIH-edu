@@ -5,7 +5,6 @@ const generateToken = require("../utils/generateToken.js");
 
 
 const register = async(req, res, next) => {
-  // console.log('Received registration request:', req.body);
   const { username, email, password, fullName, confirmPassword } = req.body;
 
   if (!username || !email || !password || !fullName || !confirmPassword) {
