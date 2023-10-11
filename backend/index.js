@@ -4,8 +4,11 @@ const cors = require("cors");
 const app = express();
 const cookieParser = require("cookie-parser");
 const { errorHandler, notFound } = require("./middleware/errorHandlerWrapper.js");
+
 const authRoute = require("./routes/auth.js");
 const testRoute = require("./routes/test.js");
+const dashboardRoute = require('./routes/dashboard.js');
+
 require('dotenv').config();
 
 const corsOptions = {
@@ -22,6 +25,7 @@ app.options('*', cors()); // Enable pre-flight requests for all routes
 
 app.use(express.json());
 app.use(`${APIpath}/auth`, authRoute);
+app.use(`${APIpath}/dashboard`, dashboardRoute);
 app.use("/test", testRoute);
 
 app.use(cookieParser());
