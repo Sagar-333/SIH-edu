@@ -2,7 +2,7 @@ const Student = require('../models/Student.js');
 const decodeClientKey = require('../middleware/jwtDecode.js');
 
 const dashboardPopulate = async (req, res, next) => {
-  const token = req.headers.cookie.split("authorization=")[1];;
+  const token = req.headers.cookie.split("authorization=")[1];
   const userId = decodeClientKey(token);
 
   let user = await Student.findOne({
@@ -11,7 +11,8 @@ const dashboardPopulate = async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    id: user
+    id: user._id,
+    courses: user.courses
   })
 }
 
