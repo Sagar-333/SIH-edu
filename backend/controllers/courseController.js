@@ -1,5 +1,13 @@
 const Course = require("../models/Courses.js");
 
+const getAll = async (req, res) => {
+  const allCourses = await Course.find();
+  return res.status(200).json({
+    success: true,
+    message: allCourses
+  });
+}
+
 const addNewCourse = async (req, res) => {
   const { details, metadata } = req.body;
 
@@ -36,5 +44,6 @@ const addNewCourse = async (req, res) => {
 }
 
 module.exports = {
-  addNewCourse
+  getAll,
+  addNewCourse,
 };
