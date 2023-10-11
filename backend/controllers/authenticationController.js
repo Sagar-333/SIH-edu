@@ -4,7 +4,7 @@ const generateToken = require("../utils/generateToken.js");
 // const TeacherSchema = require("../models/Teacher.js");
 
 
-async function register(req, res, next) {
+const register = async(req, res, next) => {
   // console.log('Received registration request:', req.body);
   const { username, email, password, fullName, confirmPassword } = req.body;
 
@@ -56,7 +56,7 @@ async function register(req, res, next) {
   }
 }
 
-async function login(req, res, next) {
+const login = async(req, res, next) => {
   try {
     const { email, username, password } = req.body;
     const userId = email || name;
@@ -89,7 +89,7 @@ async function login(req, res, next) {
 
     const token = generateToken(user._id.toString()); 
     // Generated JWT is the result of the unique MongoDB storage ID
-    res.cookie("jwt", token, {
+    res.cookie("authorization", token, {
       httpOnly: true,
       secure: false,
     });

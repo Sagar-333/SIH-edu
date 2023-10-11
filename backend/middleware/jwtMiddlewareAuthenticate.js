@@ -11,18 +11,18 @@ const jwt = require("jsonwebtoken");
 const authenticateToken = (req, res, next) => {
   // get the JWT key and confirm whether it is valid or not
   try {
-    const token = authorizationToken.split(" ")[1];
-    jwt.verify(token[1], process.env.JWT_SECRET).id;
+    const token = req.headers.cookie.split("authorization=")[1];
+    jwt.verify(token, process.env.JWT_SECRET).id;
     // if the verification has failed, it will trigger an exception
     // however, if the verfication is true, then we don't really need to return the
     // decrypted ID anyway, and it will allow us to call "next()", which is really just the 
     // function in line to be executed next.
     next();
   } catch (error) {
-    res.status(412).json({
+    return res.status(412).json({
       message: "Authentication failed!",
     });
   }
 };
 
-exports.authenticateToken = authenticateToken;
+module.exports = authenticateToken;

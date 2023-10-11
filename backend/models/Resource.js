@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 
 const ResourceSchema = new mongoose.Schema(
   {
-    // we don't need an ID key in here, as mongoDB
-    // by default maintains an unique ID
+    UID: { type: String, required: true }, // we'll keep an UID here to keep things easy to track.
     details: {
       name: { type: String, required: true, trim: true },
       author: { type: String, required: true, trim: true },
